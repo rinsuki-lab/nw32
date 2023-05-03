@@ -11,16 +11,19 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: git clone -b wine-8.7 --depth=1 https://gitlab.winehq.org/wine/wine.git
-    - run: brew install bison ccache gettext mingw-w64 pkgconfig freetype gnutls molten-vk sdl2
+    - run: brew install bison gettext mingw-w64 pkgconfig freetype gnutls molten-vk sdl2
     - run: |
         mkdir build
         cd build
         ../wine/configure --help
     - run: |
+        export PATH="/usr/local/opt/bison/bin:$PATH"
         cd build && ../wine/configure --prefix=/opt/winenew32 --enable-win64 --enable-archs=i386,x86_64 --disable-tests --disable-winedbg --without-alsa --without-capi --with-coreaudio --with-cups --without-dbus --without-fontconfig --with-freetype --with-gettext --without-gettextpo --without-gphoto --with-gnutls --without-gssapi --without-gstreamer --without-inotify --without-krb5 --with-mingw --without-netapi --with-opencl --with-opengl --without-oss --with-pcap --with-pthread --without-pulse --without-sane --with-sdl --without-udev --with-unwind --without-usb --without-v4l2 --with-vulkan --without-x
     - run: |
+        export PATH="/usr/local/opt/bison/bin:$PATH"
         cd build && make -j$(sysctl -n hw.ncpu 2>/dev/null)
     - run: |
+        export PATH="/usr/local/opt/bison/bin:$PATH"
         cd build && make install
     - run: |
         7z a winenew32.7z /opt/winenew32
