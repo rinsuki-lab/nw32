@@ -10,7 +10,8 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v3
-    - run: git clone -b wine-8.7 https://gitlab.winehq.org/wine/wine.git
+    - run: git clone -b wine-8.7 --depth=1 https://gitlab.winehq.org/wine/wine.git
+    - run: brew install bison ccache gettext mingw-w64 pkgconfig freetype gnutls molten-vk sdl2
     - run: |
         mkdir build
         cd build
