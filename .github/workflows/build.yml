@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Build
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: git clone -b 8.7 https://gitlab.winehq.org/wine/wine.git
+    - run: |
+        mkdir build
+        cd build
+        ../wine/configure --options
+    - run: |
+        cd build && ../wine/configure --prefix=/opt/winenew32 --enable-archs "i386,x86_64" --disable-tests --disable-winedbg --without-alsa --without-capi --with-coreaudio --with-cups --without-dbus --without-fontconfig --with-freetype --with-gettext --without-gettextpo --without-gphoto --with-gnutls --without-gssapi --without-gstreamer --without-inotify --without-krb6 --with-mingw --without-netapi --without-openal --with-opencl --with-opengl --without-oss --with-pcap --with-pthread --without-pulse --without-sane --with-sdl --without-udev --with-unwind --without-usb --without-v4l2 --with-vulkan --without-x
+    - run: |
+        cd build && make -j$(sysctl -n hw.ncpu 2>/dev/null)
+    - run: |
+        cd build && make install
+    - run: |
+        7z a winenew32.7z /opt/winenew32
+    - uses: actions/upload-artifact@v3
+      with:
+        name: winenew32
+        path: winenew32.7z
