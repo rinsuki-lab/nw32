@@ -16,7 +16,7 @@ jobs:
         cd build
         ../wine/configure --help
     - run: |
-        cd build && ../wine/configure --prefix=/opt/winenew32 --enable-archs "i386,x86_64" --disable-tests --disable-winedbg --without-alsa --without-capi --with-coreaudio --with-cups --without-dbus --without-fontconfig --with-freetype --with-gettext --without-gettextpo --without-gphoto --with-gnutls --without-gssapi --without-gstreamer --without-inotify --without-krb6 --with-mingw --without-netapi --without-openal --with-opencl --with-opengl --without-oss --with-pcap --with-pthread --without-pulse --without-sane --with-sdl --without-udev --with-unwind --without-usb --without-v4l2 --with-vulkan --without-x
+        cd build && ../wine/configure --prefix=/opt/winenew32 --enable-win64 --enable-archs=i386,x86_64 --disable-tests --disable-winedbg --without-alsa --without-capi --with-coreaudio --with-cups --without-dbus --without-fontconfig --with-freetype --with-gettext --without-gettextpo --without-gphoto --with-gnutls --without-gssapi --without-gstreamer --without-inotify --without-krb5 --with-mingw --without-netapi --with-opencl --with-opengl --without-oss --with-pcap --with-pthread --without-pulse --without-sane --with-sdl --without-udev --with-unwind --without-usb --without-v4l2 --with-vulkan --without-x
     - run: |
         cd build && make -j$(sysctl -n hw.ncpu 2>/dev/null)
     - run: |
