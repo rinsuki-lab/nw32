@@ -10,9 +10,10 @@ jobs:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v3
-    - run: git clone -b wine-8.7 --depth=1 https://gitlab.winehq.org/wine/wine.git
+    - run: git clone -b wine-8.9 --depth=1 https://gitlab.winehq.org/wine/wine.git
     - run: brew install bison gettext mingw-w64 pkgconfig freetype gnutls molten-vk sdl2
     - run: |
+        sudo mkdir /opt/winenew32 && sudo chown $(whoami) /opt/winenew32
         mkdir build
         cd build
         ../wine/configure --help
