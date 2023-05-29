@@ -12,6 +12,7 @@ jobs:
     - uses: actions/checkout@v3
     - run: git clone -b wine-8.9 --depth=1 https://gitlab.winehq.org/wine/wine.git
     - run: brew install bison gettext mingw-w64 pkgconfig freetype gnutls molten-vk sdl2
+    - run: brew list --versions
     - run: |
         sudo mkdir /opt/winenew32 && sudo chown $(whoami) /opt/winenew32
         mkdir build
@@ -25,7 +26,7 @@ jobs:
         cd build && make -j$(sysctl -n hw.ncpu 2>/dev/null)
     - run: |
         export PATH="/usr/local/opt/bison/bin:$PATH"
-        cd build && make install
+        cd build && make install -j$(sysctl -n hw.ncpu 2>/dev/null)
     - run: |
         7z a winenew32.7z /opt/winenew32
     - uses: actions/upload-artifact@v3
